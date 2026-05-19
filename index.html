@@ -3,15 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heros · Icon Card Component Reference</title>
+<title>Heros · Component Changes Reference</title>
 
 <!--
 =============================================================================
-HEROS HEALTH — ICON CARD COMPONENT REFERENCE
+HEROS HEALTH — COMPONENT CHANGES REFERENCE
 For: Rimo product/engineering team
-Purpose: Visual reference for the icon-card component to be added to the
-         existing medva intake form. See CHANGES.md for the implementation
-         spec and the list of questions that should use this component.
+Purpose: Visual reference for the two component changes to the existing
+         medva intake form:
+           1. Icon-card component (Y/N + Male/Female)
+           2. "None of the above" pill restyle (Start screen lists)
+         See CHANGES.md for full implementation spec.
 =============================================================================
 -->
 
@@ -24,7 +26,9 @@ Purpose: Visual reference for the icon-card component to be added to the
   --heros-cream-darker: #ede9e1;
   --heros-text: #1a1a1a;
   --heros-text-muted: #6b6660;
+  --heros-text-light: #9b958d;
   --heros-border: #e0dcd3;
+  --heros-border-strong: #c9c4b8;
   --heros-success: #2e8b57;
   --heros-success-bg: #e8f3ec;
   --heros-error: #c44545;
@@ -112,8 +116,7 @@ button { font-family: inherit; cursor: pointer; }
 .demo-question .required { color: var(--heros-copper); margin-left: 2px; }
 
 /* ──────────────────────────────────────────────────────────────────────
-   ICON CARD COMPONENT
-   For binary (Yes/No) and 2-option (Male/Female) questions.
+   CHANGE 1 — ICON CARD COMPONENT
    ────────────────────────────────────────────────────────────────────── */
 .heros-icon-cards {
   display: grid;
@@ -164,31 +167,117 @@ button { font-family: inherit; cursor: pointer; }
   justify-content: center;
 }
 
-/* Yes/No variants — green check for "No", red X for "Yes" */
-.heros-icon-card.no-answer .heros-icon-circle {
-  background: var(--heros-success-bg);
-  color: var(--heros-success);
-}
-
-.heros-icon-card.yes-answer .heros-icon-circle {
-  background: var(--heros-error-bg);
-  color: var(--heros-error);
-}
-
-/* Sex variants — blue mars for Male, pink venus for Female */
-.heros-icon-card.male .heros-icon-circle {
-  background: var(--heros-male-bg);
-  color: var(--heros-male);
-}
-
-.heros-icon-card.female .heros-icon-circle {
-  background: var(--heros-female-bg);
-  color: var(--heros-female);
-}
+.heros-icon-card.no-answer  .heros-icon-circle { background: var(--heros-success-bg); color: var(--heros-success); }
+.heros-icon-card.yes-answer .heros-icon-circle { background: var(--heros-error-bg);   color: var(--heros-error); }
+.heros-icon-card.male       .heros-icon-circle { background: var(--heros-male-bg);    color: var(--heros-male); }
+.heros-icon-card.female     .heros-icon-circle { background: var(--heros-female-bg);  color: var(--heros-female); }
 
 .heros-icon-card svg { display: block; }
 
-/* Continue button (only included so demo feels real) */
+/* ──────────────────────────────────────────────────────────────────────
+   EXISTING MEDVA PILL — reference styling for the "regular" condition
+   rows that sit ABOVE the "None of the above" pill. Already in medva.
+   Included here only so the visual contrast with the "None" pill is clear.
+   ────────────────────────────────────────────────────────────────────── */
+.heros-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 18px;
+  background: white;
+  border: 1px solid var(--heros-border);
+  border-radius: var(--radius-card);
+  font-size: 15px;
+  color: var(--heros-text);
+  text-align: left;
+  margin-bottom: 8px;
+  transition: all 0.15s;
+  box-shadow: 0 1px 2px rgba(26, 26, 26, 0.03);
+}
+
+.heros-pill:hover {
+  border-color: var(--heros-copper-light);
+  box-shadow: 0 2px 6px rgba(26, 26, 26, 0.06);
+}
+
+.heros-pill.selected {
+  border-color: var(--heros-copper);
+  border-width: 2px;
+  padding: 13px 17px;
+  box-shadow: 0 2px 8px rgba(184, 137, 99, 0.15);
+}
+
+.heros-pill-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--heros-border-strong);
+  border-radius: 4px;
+  flex-shrink: 0;
+  position: relative;
+  background: white;
+}
+
+.heros-pill.selected .heros-pill-checkbox {
+  background: var(--heros-copper);
+  border-color: var(--heros-copper);
+}
+
+.heros-pill.selected .heros-pill-checkbox::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   CHANGE 2 — "NONE OF THE ABOVE" PILL RESTYLE
+   Distinct 2px copper border, white background, copper checkbox border.
+   ────────────────────────────────────────────────────────────────────── */
+.heros-pill.heros-pill-none {
+  margin-top: 16px;
+  background: white;
+  border: 2px solid var(--heros-copper);
+  padding: 13px 17px;
+}
+
+.heros-pill.heros-pill-none:hover {
+  border-color: var(--heros-copper-dark);
+}
+
+.heros-pill.heros-pill-none .heros-pill-checkbox {
+  border-color: var(--heros-copper);
+  background: white;
+}
+
+.heros-pill.heros-pill-none.selected {
+  background: white;
+  border-color: var(--heros-copper);
+}
+
+.heros-pill.heros-pill-none.selected .heros-pill-checkbox {
+  background: var(--heros-copper);
+  border-color: var(--heros-copper);
+}
+
+.heros-pill.heros-pill-none.selected .heros-pill-checkbox::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* Continue button */
 .heros-continue {
   display: block;
   width: 100%;
@@ -218,6 +307,19 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .note strong { color: #4a3a0a; }
+
+.change-tag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: var(--heros-copper);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  border-radius: 3px;
+  vertical-align: middle;
+}
 </style>
 </head>
 <body>
@@ -229,23 +331,22 @@ button { font-family: inherit; cursor: pointer; }
 </header>
 
 <div class="demo-header">
-  <p class="demo-label">Icon Card Component Reference</p>
+  <p class="demo-label">Component changes reference</p>
   <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: 24px; margin: 0 0 8px;">
-    For Rimo — apply this component to the questions listed in CHANGES.md
+    For Rimo — two changes to apply to the existing medva intake
   </h2>
   <p style="color: var(--heros-text-muted); font-size: 14px; margin: 0;">
-    All other components on the medva intake stay exactly as today. Click cards to test selection state.
+    See <code>CHANGES.md</code> for the full spec. Click cards / rows to test selection state.
   </p>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════════
-     EXAMPLE 1: Sex — Male / Female
+     CHANGE 1A: Sex — Male / Female icon cards
      ═══════════════════════════════════════════════════════════════════════ -->
 <section class="demo-section">
-  <p class="demo-label">Variant 1 — Sex (Male / Female)</p>
+  <p class="demo-label">Change 1 · Variant A — Sex (Male / Female)</p>
   <p class="demo-question">Are you male or female? <span class="required">*</span></p>
   <div class="heros-icon-cards" data-question="sex">
-
     <button class="heros-icon-card male" onclick="selectCard(this)">
       <span class="heros-icon-circle">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -256,7 +357,6 @@ button { font-family: inherit; cursor: pointer; }
       </span>
       Male
     </button>
-
     <button class="heros-icon-card female" onclick="selectCard(this)">
       <span class="heros-icon-circle">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -267,18 +367,16 @@ button { font-family: inherit; cursor: pointer; }
       </span>
       Female
     </button>
-
   </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════════
-     EXAMPLE 2: Yes / No
+     CHANGE 1B: Yes / No icon cards
      ═══════════════════════════════════════════════════════════════════════ -->
 <section class="demo-section">
-  <p class="demo-label">Variant 2 — Yes / No (green check on No, red X on Yes)</p>
+  <p class="demo-label">Change 1 · Variant B — Yes / No (green check on No, red X on Yes)</p>
   <p class="demo-question">Have you had prior weight loss surgeries? <span class="required">*</span></p>
   <div class="heros-icon-cards" data-question="surgeries">
-
     <button class="heros-icon-card no-answer" onclick="selectCard(this)">
       <span class="heros-icon-circle">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -287,7 +385,6 @@ button { font-family: inherit; cursor: pointer; }
       </span>
       No
     </button>
-
     <button class="heros-icon-card yes-answer" onclick="selectCard(this)">
       <span class="heros-icon-circle">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -297,58 +394,72 @@ button { font-family: inherit; cursor: pointer; }
       </span>
       Yes
     </button>
-
   </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════════
-     EXAMPLE 3: Yes / No with longer labels
+     CHANGE 2: "None of the above" pill restyle
+     Demo includes a few real checkbox rows above so the visual contrast
+     with the copper-bordered "None" row is obvious.
      ═══════════════════════════════════════════════════════════════════════ -->
 <section class="demo-section">
-  <p class="demo-label">Variant 2 (longer labels) — Patient notes question</p>
-  <p class="demo-question">Would you like to add anything for your doctor? <span class="required">*</span></p>
-  <div class="heros-icon-cards" data-question="notes">
+  <p class="demo-label">Change 2 — "None of the above" pill restyle <span class="change-tag">In context</span></p>
+  <p class="demo-question">Do any of these apply to you? <span class="required">*</span></p>
 
-    <button class="heros-icon-card no-answer" onclick="selectCard(this)">
-      <span class="heros-icon-circle">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
-      </span>
-      No, nothing to add
-    </button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>End-stage kidney disease (on or about to be on dialysis)</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>End-stage liver disease (cirrhosis)</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Current suicidal thoughts and/or prior suicidal attempt</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Severe gastrointestinal condition (gastroparesis, blockage, inflammatory bowel disease)</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Current diagnosis of or treatment for alcohol, opioid, or substance use disorder/dependence</button>
 
-    <button class="heros-icon-card yes-answer" onclick="selectCard(this)">
-      <span class="heros-icon-circle">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </span>
-      Yes, I'd like to share
-    </button>
+  <button class="heros-pill heros-pill-none" onclick="toggleNonePill(this)">
+    <span class="heros-pill-checkbox"></span>
+    None of the above
+  </button>
 
-  </div>
+  <p style="font-size: 13px; color: var(--heros-text-muted); margin-top: 8px;">
+    💡 Try it: tap a condition above, then tap "None of the above" — the condition auto-clears.
+    Then tap a condition again — "None" auto-clears.
+  </p>
 </section>
 
 <button class="heros-continue">Continue</button>
 
 <div class="note">
   <strong>Note for Rimo:</strong> This file is a visual reference only. See
-  <code>CHANGES.md</code> for the full implementation spec — which questions on the
-  medva intake should use this component, design tokens, SVG icon source, and
-  selection behavior.
+  <code>CHANGES.md</code> for the full implementation spec — design tokens, CSS, SVG icon source,
+  the exact list of questions affected, and the auto-clear behavior pseudocode.
 </div>
 
 </div>
 
 <script>
-// Single-select behavior within each card group.
-// One card selected at a time; selecting a different card swaps the selection.
+// Change 1 — Icon card single-select behavior
 function selectCard(el) {
   const group = el.closest('.heros-icon-cards');
   group.querySelectorAll('.heros-icon-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
+}
+
+// Change 2 — Regular pill toggle, with auto-clear of "None" in same group
+function togglePill(el) {
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    el.parentElement.querySelectorAll('.heros-pill-none.selected').forEach(p => {
+      if (p !== el) p.classList.remove('selected');
+    });
+  }
+}
+
+// Change 2 — "None" pill toggle, with auto-clear of all other pills in same group
+function toggleNonePill(el) {
+  const willSelect = !el.classList.contains('selected');
+  el.classList.toggle('selected');
+  if (willSelect) {
+    el.parentElement.querySelectorAll('.heros-pill.selected').forEach(p => {
+      if (p !== el) p.classList.remove('selected');
+    });
+  }
 }
 </script>
 

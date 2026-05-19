@@ -1,23 +1,28 @@
-# Heros · medva Intake — Icon Card Component
+# Heros · medva Intake — Visual Changes for Rimo
 
 **For:** Rimo product/engineering team
-**Scope:** This is the **only** change to the existing medva intake form. Everything else stays as today.
+**Scope:** Two small component changes to the existing medva intake form. Everything else on the form stays exactly as today.
+
+A clickable visual reference is included as `index.html` in this repo. Open in any browser.
 
 ---
 
-## What we're asking for
+## What's changing
 
-Replace the existing pill-button treatment with a new **icon-card** component for the questions listed in [Section 4](#4-questions-to-apply-this-to). All other components, copy, sequencing, hero image, trust badges, progress bar, etc. remain unchanged.
-
-A clickable visual reference is included as `index.html` in this repo.
+| # | Change | Where it applies |
+|---|---|---|
+| **1** | Add **icon-card** component for binary / 2-option questions | 5 specific questions (see §1.4) |
+| **2** | Restyle **"None of the above" / "None of the below"** rows with a distinct copper border | 3 specific checkbox lists on the Start screen (see §2.4) |
 
 ---
 
-## 1. Component overview
+# CHANGE 1 — Icon Card Component
 
-**Icon card** = a tall square-ish card with a colored icon circle on top and a label below. Used for binary (Yes / No) and 2-option (Male / Female) questions. Cards sit in a 2-column grid.
+## 1.1 What it is
 
-Three variants:
+A tall square-ish card with a colored icon circle on top and a label below. Used for binary (Yes / No) and 2-option (Male / Female) questions. Cards sit in a 2-column grid.
+
+Four variants:
 
 | Variant | Use case | Icon | Icon background | Icon color |
 |---|---|---|---|---|
@@ -26,11 +31,7 @@ Three variants:
 | `male` | Male option on sex question | mars `♂` | light blue | blue |
 | `female` | Female option on sex question | venus `♀` | light pink | pink |
 
----
-
-## 2. Design tokens
-
-Use Heros' existing palette. These tokens are already in the medva form's design system; the new component should reuse them.
+## 1.2 Design tokens
 
 ```css
 --heros-copper: #b88963;
@@ -38,7 +39,7 @@ Use Heros' existing palette. These tokens are already in the medva form's design
 --heros-text: #1a1a1a;
 --heros-border: #e0dcd3;
 
-/* Variant colors (already in palette or add if missing) */
+/* Variant colors */
 --heros-success: #2e8b57;
 --heros-success-bg: #e8f3ec;
 --heros-error: #c44545;
@@ -49,45 +50,31 @@ Use Heros' existing palette. These tokens are already in the medva form's design
 --heros-female-bg: #fbe9f0;
 ```
 
----
+## 1.3 Specs
 
-## 3. Component specs
+**Grid container:**
+- 2-column grid, 12px gap, 8px bottom margin
 
-### 3.1 Container (grid of cards)
-- 2-column grid
-- 12px gap between cards
-- 8px bottom margin below the grid
-
-### 3.2 Card (default state)
-- White background
-- 1px solid border, color `--heros-border`
-- 12px border radius
-- 24px vertical padding, 12px horizontal padding
-- 140px minimum height
+**Card (default):**
+- White background, 1px border (`--heros-border`), 12px radius
+- 24px / 12px padding, 140px min-height
 - Flex column, items centered, 12px gap between icon and label
 - Label: 15px, weight 500, color `--heros-text`, centered
 - Subtle elevation: `box-shadow: 0 1px 3px rgba(26, 26, 26, 0.04)`
-- 150ms transition on all properties
-- Cursor: pointer
+- 150ms transition on all properties, cursor pointer
 
-### 3.3 Card (hover state)
-- Border color: `--heros-copper-light`
-- Lift: `transform: translateY(-1px)`
-- Deeper shadow: `box-shadow: 0 4px 12px rgba(26, 26, 26, 0.06)`
+**Card (hover):**
+- Border: `--heros-copper-light`, lift `translateY(-1px)`, deeper shadow
 
-### 3.4 Card (selected state)
-- Border color: `--heros-copper`
-- Border width: 2px (padding compensates: 23px / 11px so size stays constant)
-- Copper-tinted shadow: `box-shadow: 0 4px 12px rgba(184, 137, 99, 0.18)`
+**Card (selected):**
+- Border: `--heros-copper`, 2px width (padding compensated to 23px / 11px)
+- Copper shadow: `box-shadow: 0 4px 12px rgba(184, 137, 99, 0.18)`
 
-### 3.5 Icon circle
-- 56px × 56px
-- 50% border radius (perfect circle)
-- Centered flex, icon SVG inside
-- Background and icon color set by variant class (see section 1)
+**Icon circle:**
+- 56px × 56px, perfect circle
+- Background and icon color from variant class
 
-### 3.6 SVG icons
-All icons are 28px × 28px, `stroke="currentColor"` so they inherit the variant color. Use these exact paths:
+**SVG icons (all 28×28, `stroke="currentColor"`):**
 
 **Check (No answer):** stroke-width 2.5
 ```html
@@ -122,32 +109,23 @@ All icons are 28px × 28px, `stroke="currentColor"` so they inherit the variant 
 </svg>
 ```
 
-### 3.7 Selection behavior
-- Single-select (radio behavior) within each card group
+**Selection behavior:**
+- Single-select within each card group (radio behavior)
 - Selecting one card deselects any other in the same group
-- No keyboard/animation requirements beyond the existing 150ms transition
 
----
-
-## 4. Questions to apply this to
-
-Apply the icon card component to these specific questions on the medva intake. Every other question on the form keeps its existing pill / checkbox styling.
+## 1.4 Questions to apply this to
 
 | # | Screen | Question | Variant |
 |---|---|---|---|
-| 1 | **Start** (screen 1) | Are you male or female? | `male` / `female` |
-| 2 | **Start** (screen 1) | Have you had prior weight loss surgeries? | `no-answer` / `yes-answer` |
-| 3 | **Start** (screen 1) | Do you currently take any prescription medications? | `no-answer` / `yes-answer` |
-| 4 | **Details: Programs** (screen 8) | How about weight loss programs? | `no-answer` / `yes-answer` |
-| 5 | **Patient Notes** (screen 13) | Would you like to add anything for your doctor? | `no-answer` / `yes-answer` |
+| 1 | **Start** | Are you male or female? | `male` / `female` |
+| 2 | **Start** | Have you had prior weight loss surgeries? | `no-answer` / `yes-answer` |
+| 3 | **Start** | Do you currently take any prescription medications? | `no-answer` / `yes-answer` |
+| 4 | **Details: Programs** | How about weight loss programs? | `no-answer` / `yes-answer` |
+| 5 | **Patient Notes** | Would you like to add anything for your doctor? | `no-answer` / `yes-answer` |
 
-For Y/N questions: **No always uses `no-answer` (green check), Yes always uses `yes-answer` (red X)** — even when "Yes" is the safer answer. The color convention is "low-friction answer = green, follow-up-required answer = red", which conveniently maps to No / Yes in every Heros question.
+**Convention:** "No" is always `no-answer` (green check). "Yes" is always `yes-answer` (red X). The color reflects "low-friction answer = green / follow-up-required answer = red", which conveniently maps to No / Yes in every Heros question.
 
----
-
-## 5. Full reference CSS
-
-Drop-in CSS, no dependencies:
+## 1.5 Reference CSS
 
 ```css
 .heros-icon-cards {
@@ -199,44 +177,23 @@ Drop-in CSS, no dependencies:
   justify-content: center;
 }
 
-.heros-icon-card.no-answer .heros-icon-circle {
-  background: var(--heros-success-bg);
-  color: var(--heros-success);
-}
-
-.heros-icon-card.yes-answer .heros-icon-circle {
-  background: var(--heros-error-bg);
-  color: var(--heros-error);
-}
-
-.heros-icon-card.male .heros-icon-circle {
-  background: var(--heros-male-bg);
-  color: var(--heros-male);
-}
-
-.heros-icon-card.female .heros-icon-circle {
-  background: var(--heros-female-bg);
-  color: var(--heros-female);
-}
+.heros-icon-card.no-answer .heros-icon-circle { background: var(--heros-success-bg); color: var(--heros-success); }
+.heros-icon-card.yes-answer .heros-icon-circle { background: var(--heros-error-bg);   color: var(--heros-error); }
+.heros-icon-card.male       .heros-icon-circle { background: var(--heros-male-bg);    color: var(--heros-male); }
+.heros-icon-card.female     .heros-icon-circle { background: var(--heros-female-bg);  color: var(--heros-female); }
 ```
 
----
-
-## 6. Reference HTML markup
+## 1.6 Reference HTML
 
 ```html
 <!-- Sex (Male / Female) -->
 <div class="heros-icon-cards" data-question="sex">
   <button class="heros-icon-card male">
-    <span class="heros-icon-circle">
-      <!-- mars SVG from section 3.6 -->
-    </span>
+    <span class="heros-icon-circle"><!-- mars SVG --></span>
     Male
   </button>
   <button class="heros-icon-card female">
-    <span class="heros-icon-circle">
-      <!-- venus SVG from section 3.6 -->
-    </span>
+    <span class="heros-icon-circle"><!-- venus SVG --></span>
     Female
   </button>
 </div>
@@ -244,15 +201,11 @@ Drop-in CSS, no dependencies:
 <!-- Yes / No -->
 <div class="heros-icon-cards" data-question="surgeries">
   <button class="heros-icon-card no-answer">
-    <span class="heros-icon-circle">
-      <!-- check SVG from section 3.6 -->
-    </span>
+    <span class="heros-icon-circle"><!-- check SVG --></span>
     No
   </button>
   <button class="heros-icon-card yes-answer">
-    <span class="heros-icon-circle">
-      <!-- X SVG from section 3.6 -->
-    </span>
+    <span class="heros-icon-circle"><!-- X SVG --></span>
     Yes
   </button>
 </div>
@@ -260,21 +213,132 @@ Drop-in CSS, no dependencies:
 
 ---
 
-## 7. Mobile
+# CHANGE 2 — "None of the above" pill restyle
 
-The 2-column grid stays at all viewport widths (the cards are small enough). On phones the cards shrink proportionally; minimum height can drop from 140px to 120px below 600px viewport if needed.
+## 2.1 What it is
 
-Optional mobile tweak:
-```css
-@media (max-width: 600px) {
-  .heros-icon-card { min-height: 120px; }
+On the Start screen, three checkbox lists end with a "None of the above" / "None of the below" row. Currently styled identically to every other condition pill, which makes it hard to spot. The change: give that row a distinct **2px copper border** so users can eyeball it at the bottom of a long list. Background stays white (clean), only the border is different.
+
+## 2.2 Specs
+
+**Default state:**
+- 2px solid border, color `--heros-copper` (vs 1px `--heros-border` on regular pills)
+- White background (same as regular pills)
+- Padding 13px / 17px (compensates for the thicker border so visual height matches regular pills)
+- 16px top margin to separate from the list above
+- Checkbox border: `--heros-copper` instead of grey
+
+**Hover state:**
+- Border darkens to `--heros-copper-dark`
+
+**Selected state:**
+- Border stays `--heros-copper`, 2px
+- Background stays white
+- Checkbox fills with `--heros-copper`, white ✓ centered inside
+
+## 2.3 Behavior (auto-clear)
+
+This is the key UX behavior:
+
+- **When "None of the above" is tapped:** all other items in that same group are automatically un-selected
+- **When any other item is tapped:** "None of the above" is automatically un-selected
+
+This prevents the impossible state of "I have kidney disease AND I have none of the above conditions."
+
+Pseudocode:
+
+```js
+function toggleNonePill(el) {
+  const willSelect = !el.classList.contains('selected');
+  el.classList.toggle('selected');
+  if (willSelect) {
+    // Clear every other checked pill in the same group
+    el.parentElement.querySelectorAll('.heros-pill.selected').forEach(p => {
+      if (p !== el) p.classList.remove('selected');
+    });
+  }
 }
+
+function togglePill(el) {  // any regular pill
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    // Un-select the "None" shortcut in the same group
+    el.parentElement.querySelectorAll('.heros-pill-none.selected').forEach(p => {
+      if (p !== el) p.classList.remove('selected');
+    });
+  }
+}
+```
+
+## 2.4 Where to apply this
+
+Three "None" rows on the **Start** screen:
+
+| # | Checkbox group | "None" row label |
+|---|---|---|
+| 1 | Disqualifying conditions (Health Questions 1) | "None of the above" |
+| 2 | Medical conditions (Health Questions 2) | "None of the above" |
+| 3 | Disqualifying medications | "None of the below" |
+
+## 2.5 Reference CSS
+
+Add this on top of your existing `.heros-pill` styles. It assumes a modifier class `heros-pill-none` on the "None" row.
+
+```css
+.heros-pill.heros-pill-none {
+  margin-top: 16px;
+  background: white;
+  border: 2px solid var(--heros-copper);
+  padding: 13px 17px;
+}
+
+.heros-pill.heros-pill-none:hover {
+  border-color: var(--heros-copper-dark);
+}
+
+.heros-pill.heros-pill-none .heros-pill-checkbox {
+  border-color: var(--heros-copper);
+  background: white;
+}
+
+.heros-pill.heros-pill-none.selected {
+  background: white;
+  border-color: var(--heros-copper);
+}
+
+/* Fill checkbox when selected — overrides the default white background */
+.heros-pill.heros-pill-none.selected .heros-pill-checkbox {
+  background: var(--heros-copper);
+  border-color: var(--heros-copper);
+}
+
+.heros-pill.heros-pill-none.selected .heros-pill-checkbox::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+}
+```
+
+## 2.6 Reference HTML
+
+```html
+<!-- Last row in each of the 3 affected checkbox lists -->
+<button class="heros-pill heros-pill-none" onclick="toggleNonePill(this)">
+  <span class="heros-pill-checkbox"></span>
+  None of the above
+</button>
 ```
 
 ---
 
-## 8. Anything not in this doc
+## 3. Anything not in this doc
 
-If a question or behavior isn't covered here, **leave the existing medva form as-is.** This document is the entire scope of the change.
+If a question, screen, or behavior isn't covered above, **leave the existing medva form as-is.** These two component changes are the entire scope.
 
-Open `index.html` in any browser to see the working component with all three variants.
+Open `index.html` to see both changes working in isolation.
