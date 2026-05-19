@@ -10,7 +10,8 @@ Two small component changes to the existing medva intake form. Everything else s
 ## Files
 
 - **`CHANGES.md`** — full implementation spec (design tokens, CSS, SVG icons, list of affected questions, behavior pseudocode)
-- **`index.html`** — working visual reference. Open in any browser to see both changes in action.
+- **`index.html`** — component-isolated visual reference. Each new component shown on its own with no surrounding context.
+- **`result-preview.html`** — full-context preview. Shows the live medva intake (Start / Programs / Patient Notes screens) with **only** these two changes applied. Orange badges mark exactly where the new components appear. Open in any browser.
 
 ## Quick start
 
