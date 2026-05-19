@@ -188,11 +188,11 @@ Four variants:
 ```html
 <!-- Sex (Male / Female) -->
 <div class="heros-icon-cards" data-question="sex">
-  <button class="heros-icon-card male">
+  <button class="heros-icon-card male" onclick="selectCard(this)">
     <span class="heros-icon-circle"><!-- mars SVG --></span>
     Male
   </button>
-  <button class="heros-icon-card female">
+  <button class="heros-icon-card female" onclick="selectCard(this)">
     <span class="heros-icon-circle"><!-- venus SVG --></span>
     Female
   </button>
@@ -200,16 +200,29 @@ Four variants:
 
 <!-- Yes / No -->
 <div class="heros-icon-cards" data-question="surgeries">
-  <button class="heros-icon-card no-answer">
+  <button class="heros-icon-card no-answer" onclick="selectCard(this)">
     <span class="heros-icon-circle"><!-- check SVG --></span>
     No
   </button>
-  <button class="heros-icon-card yes-answer">
+  <button class="heros-icon-card yes-answer" onclick="selectCard(this)">
     <span class="heros-icon-circle"><!-- X SVG --></span>
     Yes
   </button>
 </div>
 ```
+
+## 1.7 Reference JS — icon-card single-select
+
+```js
+// Selecting one card deselects any other in the same group.
+function selectCard(el) {
+  const group = el.closest('.heros-icon-cards');
+  group.querySelectorAll('.heros-icon-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+```
+
+If Rimo's form-builder represents these as native radio inputs, you can skip this JS and let the builder's selection state apply the `.selected` class automatically.
 
 ---
 
