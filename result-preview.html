@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heros · Result preview — medva intake with only the 2 repo changes applied</title>
+
+<!--
+=============================================================================
+RESULT PREVIEW
+What the live mv-96wsi6 (medva) intake would look like if Rimo applies
+ONLY the two component changes documented in CHANGES.md:
+  1. Icon-card component on 5 specific questions
+  2. "None of the above" pill restyle on 3 specific checkbox lists
+
+EVERYTHING ELSE matches the live form exactly.
+=============================================================================
+-->
+
+<style>
+:root {
+  --heros-copper: #b88963;
+  --heros-copper-dark: #9a6e4d;
+  --heros-copper-light: #d4ad88;
+  --heros-cream: #f5f3ef;
+  --heros-cream-darker: #ede9e1;
+  --heros-text: #1a1a1a;
+  --heros-text-muted: #6b6660;
+  --heros-text-light: #9b958d;
+  --heros-border: #e0dcd3;
+  --heros-border-strong: #c9c4b8;
+  --heros-success: #2e8b57;
+  --heros-success-bg: #e8f3ec;
+  --heros-error: #c44545;
+  --heros-error-bg: #fbeaea;
+  --heros-male: #4a8fbf;
+  --heros-male-bg: #e9f2f9;
+  --heros-female: #d97aa5;
+  --heros-female-bg: #fbe9f0;
+
+  --radius-card: 12px;
+  --radius-pill: 999px;
+
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: Georgia, "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--heros-cream);
+  color: var(--heros-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button { font-family: inherit; cursor: pointer; }
+
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+}
+
+/* HEADER (unchanged from live medva) */
+.heros-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 8px 0 16px;
+}
+
+.heros-back {
+  position: absolute;
+  left: 0;
+  background: none;
+  border: none;
+  color: var(--heros-text-muted);
+  font-size: 14px;
+}
+
+.heros-logo {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+
+.heros-reviews {
+  position: absolute;
+  right: 0;
+  font-size: 13px;
+  color: var(--heros-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.heros-stars { color: #e3a72e; letter-spacing: -1px; }
+
+/* PROGRESS BAR (unchanged from live medva) */
+.heros-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 480px;
+  margin: 8px auto 28px;
+  padding: 0 12px;
+}
+
+.heros-progress-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--heros-text-light);
+}
+
+.heros-progress-circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--heros-border-strong);
+  background: white;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.heros-progress-step.active { color: var(--heros-text); font-weight: 500; }
+.heros-progress-step.active .heros-progress-circle { border-color: var(--heros-copper); }
+.heros-progress-step.active .heros-progress-circle::after {
+  content: ''; position: absolute; inset: 3px; background: var(--heros-copper); border-radius: 50%;
+}
+
+.heros-progress-step.completed .heros-progress-circle {
+  background: var(--heros-copper); border-color: var(--heros-copper);
+}
+.heros-progress-step.completed .heros-progress-circle::after {
+  content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 10px; font-weight: bold;
+}
+
+.heros-progress-line { flex: 1; height: 1px; background: var(--heros-border); margin: 0 8px; }
+
+/* TYPOGRAPHY (unchanged) */
+.heros-h1 {
+  font-family: var(--font-heading);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 8px;
+}
+
+.heros-sub { font-size: 14px; color: var(--heros-text-muted); margin: 0 0 24px; }
+.heros-question { font-size: 15px; font-weight: 600; margin: 24px 0 12px; }
+.heros-question .required { color: var(--heros-copper); margin-left: 2px; }
+
+.heros-section-title {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 400;
+  margin: 32px 0 8px;
+}
+
+/* INPUTS (unchanged) */
+.heros-input {
+  width: 100%; padding: 14px 16px; background: white;
+  border: 1px solid var(--heros-border); border-radius: 10px;
+  font-size: 16px; outline: none;
+}
+
+.heros-input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.heros-input-label { display: block; font-size: 13px; color: var(--heros-text-muted); margin-bottom: 6px; }
+
+/* PILL (the existing medva default - unchanged) */
+.heros-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 18px;
+  background: white;
+  border: 1px solid var(--heros-border);
+  border-radius: var(--radius-card);
+  font-size: 15px;
+  color: var(--heros-text);
+  text-align: left;
+  margin-bottom: 8px;
+  transition: all 0.15s;
+}
+
+.heros-pill:hover { border-color: var(--heros-copper-light); }
+.heros-pill.selected { border-color: var(--heros-copper); border-width: 2px; padding: 13px 17px; }
+
+.heros-pill-checkbox {
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--heros-border-strong);
+  border-radius: 4px; flex-shrink: 0; position: relative; background: white;
+}
+
+.heros-pill.selected .heros-pill-checkbox { background: var(--heros-copper); border-color: var(--heros-copper); }
+.heros-pill.selected .heros-pill-checkbox::after {
+  content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 11px; font-weight: bold;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   CHANGE 1 — ICON CARD COMPONENT
+   ══════════════════════════════════════════════════════════════════════ */
+.heros-icon-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.heros-icon-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px 12px;
+  min-height: 140px;
+  background: white;
+  border: 1px solid var(--heros-border);
+  border-radius: var(--radius-card);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--heros-text);
+  text-align: center;
+  transition: all 0.15s;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(26, 26, 26, 0.04);
+}
+
+.heros-icon-card:hover {
+  border-color: var(--heros-copper-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 26, 26, 0.06);
+}
+
+.heros-icon-card.selected {
+  border-color: var(--heros-copper);
+  border-width: 2px;
+  padding: 23px 11px;
+  box-shadow: 0 4px 12px rgba(184, 137, 99, 0.18);
+}
+
+.heros-icon-circle {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.heros-icon-card.no-answer  .heros-icon-circle { background: var(--heros-success-bg); color: var(--heros-success); }
+.heros-icon-card.yes-answer .heros-icon-circle { background: var(--heros-error-bg);   color: var(--heros-error); }
+.heros-icon-card.male       .heros-icon-circle { background: var(--heros-male-bg);    color: var(--heros-male); }
+.heros-icon-card.female     .heros-icon-circle { background: var(--heros-female-bg);  color: var(--heros-female); }
+
+/* ══════════════════════════════════════════════════════════════════════
+   CHANGE 2 — "NONE OF THE ABOVE" PILL RESTYLE
+   ══════════════════════════════════════════════════════════════════════ */
+.heros-pill.heros-pill-none {
+  margin-top: 16px;
+  background: white;
+  border: 2px solid var(--heros-copper);
+  padding: 13px 17px;
+}
+
+.heros-pill.heros-pill-none:hover { border-color: var(--heros-copper-dark); }
+
+.heros-pill.heros-pill-none .heros-pill-checkbox {
+  border-color: var(--heros-copper); background: white;
+}
+
+.heros-pill.heros-pill-none.selected {
+  background: white; border-color: var(--heros-copper);
+}
+
+.heros-pill.heros-pill-none.selected .heros-pill-checkbox {
+  background: var(--heros-copper); border-color: var(--heros-copper);
+}
+
+.heros-pill.heros-pill-none.selected .heros-pill-checkbox::after {
+  content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 11px; font-weight: bold;
+}
+
+/* CONTINUE BUTTON (unchanged) */
+.heros-continue {
+  display: block; width: 100%; padding: 16px; margin-top: 32px;
+  background: var(--heros-copper); color: white;
+  border: none; border-radius: var(--radius-pill);
+  font-size: 16px; font-weight: 500;
+}
+
+/* CHANGE BADGE — small "Change 1" / "Change 2" marker */
+.change-badge {
+  position: absolute;
+  top: -10px;
+  right: -8px;
+  padding: 3px 8px;
+  background: var(--heros-copper);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(184, 137, 99, 0.25);
+  z-index: 1;
+}
+
+.change-target { position: relative; }
+
+/* SCREEN NAV */
+.screen-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--heros-border);
+}
+
+.screen-tab {
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid var(--heros-border);
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  color: var(--heros-text-muted);
+  cursor: pointer;
+}
+
+.screen-tab.active {
+  background: var(--heros-copper);
+  color: white;
+  border-color: var(--heros-copper);
+}
+
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* INTRO NOTE */
+.intro-note {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #fff8e1;
+  border-left: 3px solid #d9b341;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #6b5614;
+  line-height: 1.5;
+}
+
+.intro-note strong { color: #4a3a0a; }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<div class="intro-note">
+  <strong>What you're looking at:</strong> the live mv-96wsi6 medva intake form rendered
+  exactly as it is today, but with the two component changes from <code>CHANGES.md</code>
+  applied. Every other element on these screens (headlines, copy, layout, all other pills,
+  the long checklists, the progress bar, the header) matches the live form pixel-for-pixel.
+  The orange <strong>CHANGE 1</strong> / <strong>CHANGE 2</strong> badges mark exactly where the new components appear.
+</div>
+
+<!-- HEADER -->
+<header class="heros-header">
+  <button class="heros-back">‹</button>
+  <div class="heros-logo">heros</div>
+  <div class="heros-reviews">
+    <span class="heros-stars">★★★★★</span>
+    14,532 Reviews
+  </div>
+</header>
+
+<!-- PROGRESS BAR -->
+<nav class="heros-progress">
+  <div class="heros-progress-step active" id="prog_start"><span class="heros-progress-circle"></span>Start</div>
+  <div class="heros-progress-line"></div>
+  <div class="heros-progress-step" id="prog_details"><span class="heros-progress-circle"></span>Details</div>
+  <div class="heros-progress-line"></div>
+  <div class="heros-progress-step" id="prog_eligibility"><span class="heros-progress-circle"></span>Eligibility</div>
+</nav>
+
+<!-- SCREEN TABS -->
+<div class="screen-tabs">
+  <button class="screen-tab active" onclick="showScreen('start')">1. Start</button>
+  <button class="screen-tab" onclick="showScreen('programs')">7. Programs</button>
+  <button class="screen-tab" onclick="showScreen('notes')">13. Patient Notes</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SCREEN 1: START — 5 changes total on this screen
+       Change 1: Male/Female icon cards
+       Change 1: Prior surgeries Y/N icon cards
+       Change 1: Prescription meds Y/N icon cards
+       Change 2: None of the above (Health Q1) — copper border
+       Change 2: None of the above (Health Q2) — copper border
+       Change 2: None of the below (Disqualifying meds) — copper border
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="screen active" data-screen="start">
+
+  <h1 class="heros-h1">Reach your goal weight fast without restrictive diets and exercise.</h1>
+  <p class="heros-sub">Please answer the following questions so we can qualify you for medical weight loss.</p>
+
+  <p class="heros-question">What is your height and weight? <span class="required">*</span></p>
+  <div style="margin-bottom: 16px;">
+    <label class="heros-input-label">Weight</label>
+    <input type="text" class="heros-input" placeholder="Weight (in lbs)">
+  </div>
+  <div>
+    <label class="heros-input-label">Height</label>
+    <div class="heros-input-row">
+      <input type="text" class="heros-input" placeholder="Feet">
+      <input type="text" class="heros-input" placeholder="Inches">
+    </div>
+  </div>
+
+  <p class="heros-question">What is your goal weight? <span class="required">*</span></p>
+  <input type="text" class="heros-input" placeholder="Goal weight (in lbs)">
+
+  <!-- ▼ CHANGE 1 ▼ -->
+  <p class="heros-question">Are you male or female? <span class="required">*</span></p>
+  <div class="change-target">
+    <span class="change-badge">Change 1</span>
+    <div class="heros-icon-cards" data-question="sex">
+      <button class="heros-icon-card male" onclick="selectCard(this)">
+        <span class="heros-icon-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="10" cy="14" r="5"/><line x1="19" y1="5" x2="13.6" y2="10.4"/><polyline points="14 5 19 5 19 10"/>
+          </svg>
+        </span>
+        Male
+      </button>
+      <button class="heros-icon-card female" onclick="selectCard(this)">
+        <span class="heros-icon-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="9" r="5"/><line x1="12" y1="14" x2="12" y2="22"/><line x1="9" y1="19" x2="15" y2="19"/>
+          </svg>
+        </span>
+        Female
+      </button>
+    </div>
+  </div>
+
+  <p class="heros-question">What is your date of birth? <span class="required">*</span></p>
+  <input type="text" class="heros-input" placeholder="MM-DD-YYYY">
+
+  <h2 class="heros-section-title">Health Questions</h2>
+
+  <p class="heros-question">Do any of these apply to you? <span class="required">*</span></p>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>End-stage kidney disease (on or about to be on dialysis)</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>End-stage liver disease (cirrhosis)</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Current suicidal thoughts and/or prior suicidal attempt</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Cancer (active diagnosis, active treatment, or in remission less than 5 years — non-melanoma skin cancer cured by excision excluded)</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Severe gastrointestinal condition (gastroparesis, blockage, inflammatory bowel disease)</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Current diagnosis of or treatment for alcohol, opioid, or substance use disorder/dependence</button>
+  <!-- ▼ CHANGE 2 ▼ -->
+  <div class="change-target">
+    <span class="change-badge">Change 2</span>
+    <button class="heros-pill heros-pill-none" onclick="toggleNonePill(this)"><span class="heros-pill-checkbox"></span>None of the above</button>
+  </div>
+
+  <p class="heros-question">Do you have any of the following medical conditions? <span class="required">*</span></p>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Gallbladder disease</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Hypertension (high blood pressure)</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Sleep apnea</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Type 2 diabetes (not on insulin)</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Type 2 diabetes (on insulin)</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Type 1 diabetes</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>History of or current pancreatitis</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Personal or family history of thyroid cyst/nodule, thyroid cancer, MTC, or MEN syndrome type 2</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>High cholesterol or triglycerides</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Liver disease, including fatty liver</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Kidney disease</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Coronary artery disease or heart attack/stroke in last 2 years</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Allergic to any medication</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Acid reflux</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Polycystic ovarian syndrome (PCOS)</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Osteoarthritis</button>
+  <!-- ▼ CHANGE 2 ▼ -->
+  <div class="change-target">
+    <span class="change-badge">Change 2</span>
+    <button class="heros-pill heros-pill-none" onclick="toggleNonePill(this)"><span class="heros-pill-checkbox"></span>None of the above</button>
+  </div>
+
+  <!-- ▼ CHANGE 1 ▼ -->
+  <p class="heros-question">Have you had prior weight loss surgeries? <span class="required">*</span></p>
+  <div class="change-target">
+    <span class="change-badge">Change 1</span>
+    <div class="heros-icon-cards" data-question="surgeries">
+      <button class="heros-icon-card no-answer" onclick="selectCard(this)">
+        <span class="heros-icon-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </span>
+        No
+      </button>
+      <button class="heros-icon-card yes-answer" onclick="selectCard(this)">
+        <span class="heros-icon-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </span>
+        Yes
+      </button>
+    </div>
+  </div>
+
+  <p class="heros-question">Are you currently taking any of these medications? <span class="required">*</span></p>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Insulin</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Glimepiride</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Meglitinides</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Glipizide</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Glyburide</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Sitagliptin</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Saxagliptin</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Linagliptin</button>
+  <button class="heros-pill" onclick="togglePill(this)"><span class="heros-pill-checkbox"></span>Alogliptin</button>
+  <!-- ▼ CHANGE 2 ▼ -->
+  <div class="change-target">
+    <span class="change-badge">Change 2</span>
+    <button class="heros-pill heros-pill-none" onclick="toggleNonePill(this)"><span class="heros-pill-checkbox"></span>None of the below</button>
+  </div>
+
+  <!-- ▼ CHANGE 1 ▼ -->
+  <p class="heros-question">Do you currently take any prescription medications? <span class="required">*</span></p>
+  <div class="change-target">
+    <span class="change-badge">Change 1</span>
+    <div class="heros-icon-cards" data-question="rx">
+      <button class="heros-icon-card no-answer" onclick="selectCard(this)">
+        <span class="heros-icon-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </span>
+        No
+      </button>
+      <button class="heros-icon-card yes-answer" onclick="selectCard(this)">
+        <span class="heros-icon-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </span>
+        Yes
+      </button>
+    </div>
+  </div>
+
+  <p class="heros-question">What is your blood pressure range? <span class="required">*</span></p>
+  <button class="heros-pill" onclick="selectSingle(this)"><span style="width:18px;height:18px;border:1.5px solid var(--heros-copper-light);border-radius:50%;flex-shrink:0;"></span>&lt;120/80 (Normal)</button>
+  <button class="heros-pill" onclick="selectSingle(this)"><span style="width:18px;height:18px;border:1.5px solid var(--heros-copper-light);border-radius:50%;flex-shrink:0;"></span>120 to 129/&lt;80 (Elevated)</button>
+  <button class="heros-pill" onclick="selectSingle(this)"><span style="width:18px;height:18px;border:1.5px solid var(--heros-copper-light);border-radius:50%;flex-shrink:0;"></span>130 to 139/80-89 (High Stage 1)</button>
+  <button class="heros-pill" onclick="selectSingle(this)"><span style="width:18px;height:18px;border:1.5px solid var(--heros-copper-light);border-radius:50%;flex-shrink:0;"></span>≥140/90 (High Stage 2)</button>
+
+  <p class="heros-question">What is your resting heart rate? <span class="required">*</span></p>
+  <button class="heros-pill" onclick="selectSingle(this)"><span style="width:18px;height:18px;border:1.5px solid var(--heros-copper-light);border-radius:50%;flex-shrink:0;"></span>&lt;60 beats per minute (Slow)</button>
+  <button class="heros-pill" onclick="selectSingle(this)"><span style="width:18px;height:18px;border:1.5px solid var(--heros-copper-light);border-radius:50%;flex-shrink:0;"></span>60 to 100 beats per minute (Normal)</button>
+  <button class="heros-pill" onclick="selectSingle(this)"><span style="width:18px;height:18px;border:1.5px solid var(--heros-copper-light);border-radius:50%;flex-shrink:0;"></span>101 to 110 beats per minute (Slightly Fast)</button>
+  <button class="heros-pill" onclick="selectSingle(this)"><span style="width:18px;height:18px;border:1.5px solid var(--heros-copper-light);border-radius:50%;flex-shrink:0;"></span>&gt;110 beats per minute (Fast)</button>
+
+  <button class="heros-continue">Continue</button>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SCREEN 7: PROGRAMS — single Y/N becomes icon cards
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="screen" data-screen="programs">
+  <h1 class="heros-h1">Have you ever tried to lose weight in a weight management program?</h1>
+  <p class="heros-question" style="margin-top:24px;">How about weight loss programs? <span class="required">*</span></p>
+
+  <!-- ▼ CHANGE 1 ▼ -->
+  <div class="change-target">
+    <span class="change-badge">Change 1</span>
+    <div class="heros-icon-cards" data-question="programs">
+      <button class="heros-icon-card no-answer" onclick="selectCard(this)">
+        <span class="heros-icon-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </span>
+        No
+      </button>
+      <button class="heros-icon-card yes-answer" onclick="selectCard(this)">
+        <span class="heros-icon-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </span>
+        Yes
+      </button>
+    </div>
+  </div>
+
+  <button class="heros-continue">Continue</button>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SCREEN 13: PATIENT NOTES — single Y/N becomes icon cards
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="screen" data-screen="notes">
+  <h1 class="heros-h1">Did you have anything else for your doctor today?</h1>
+  <p class="heros-sub">Optional — share anything that might help your provider personalize your care.</p>
+  <p class="heros-question">Would you like to add anything for your doctor? <span class="required">*</span></p>
+
+  <!-- ▼ CHANGE 1 ▼ -->
+  <div class="change-target">
+    <span class="change-badge">Change 1</span>
+    <div class="heros-icon-cards" data-question="notes">
+      <button class="heros-icon-card no-answer" onclick="selectCard(this)">
+        <span class="heros-icon-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </span>
+        No, I have nothing to add
+      </button>
+      <button class="heros-icon-card yes-answer" onclick="selectCard(this)">
+        <span class="heros-icon-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </span>
+        Yes, I'd like to share something
+      </button>
+    </div>
+  </div>
+
+  <button class="heros-continue">Continue</button>
+</section>
+
+</div>
+
+<script>
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-screen="${name}"]`).classList.add('active');
+  event.target.classList.add('active');
+
+  // update progress bar based on screen
+  const phases = { start: 'start', programs: 'details', notes: 'eligibility' };
+  const phase = phases[name];
+  const order = ['start', 'details', 'eligibility'];
+  const idx = order.indexOf(phase);
+  order.forEach((p, i) => {
+    const el = document.getElementById('prog_' + p);
+    el.classList.remove('active', 'completed');
+    if (i < idx) el.classList.add('completed');
+    if (i === idx) el.classList.add('active');
+  });
+
+  window.scrollTo(0, 0);
+}
+
+function selectCard(el) {
+  const group = el.closest('.heros-icon-cards');
+  group.querySelectorAll('.heros-icon-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function selectSingle(el) {
+  // For BP/HR radio pills
+  const siblings = el.parentElement.querySelectorAll('.heros-pill');
+  siblings.forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function togglePill(el) {
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    el.parentElement.querySelectorAll('.heros-pill-none.selected').forEach(p => {
+      if (p !== el) p.classList.remove('selected');
+    });
+    // Also check the next sibling (the change-target wrapper containing the None pill)
+    const next = el.nextElementSibling;
+    if (next && next.classList.contains('change-target')) {
+      next.querySelectorAll('.heros-pill-none.selected').forEach(p => p.classList.remove('selected'));
+    }
+  }
+}
+
+function toggleNonePill(el) {
+  const willSelect = !el.classList.contains('selected');
+  el.classList.toggle('selected');
+  if (willSelect) {
+    // Walk up to find the parent screen, then clear sibling regular pills above
+    const wrapper = el.closest('.change-target');
+    let prev = wrapper.previousElementSibling;
+    while (prev && prev.classList && prev.classList.contains('heros-pill') && !prev.classList.contains('heros-pill-none')) {
+      prev.classList.remove('selected');
+      prev = prev.previousElementSibling;
+    }
+  }
+}
+</script>
+
+</body>
+</html>
